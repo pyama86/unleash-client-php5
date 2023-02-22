@@ -44,7 +44,6 @@ class HttpClient
             $response = $this->httpClient->request('POST', 'client/metrics', [
                 'json' => $payload
             ]);
-
         } catch (Exception $e) {
             return false;
         }
@@ -78,7 +77,6 @@ class HttpClient
         } catch (Exception $e) {
             return false;
         }
-
         $result = $response->getStatusCode() >= 200 && $response->getStatusCode() < 300;
         $this->storeCache($result);
         return $result;
