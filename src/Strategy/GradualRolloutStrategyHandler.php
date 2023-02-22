@@ -56,10 +56,6 @@ class GradualRolloutStrategyHandler extends AbstractStrategyHandler
             return false;
         }
 
-        if (!$this->validateConstraints($strategy, $context)) {
-            return false;
-        }
-
         return true;
     }
 
