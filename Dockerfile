@@ -1,6 +1,5 @@
-FROM php:5.6-zts-alpine
-RUN apk add --no-cache git bash curl-dev
-RUN apk add --no-cache git bash curl-dev ca-certificates && update-ca-certificates
+FROM php:5.4
+RUN apt update -qqy && DEBIAN_FRONTEND=noninteractive apt install -qq --force-yes git bash libcurl4-openssl-dev  ca-certificates
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
   php composer-setup.php && \
   mv composer.phar /usr/bin/composer

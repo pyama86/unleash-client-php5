@@ -1,7 +1,7 @@
 <?php
 
 namespace Unleash\Metrics;
-use DateTimeImmutable;
+use DateTime;
 use Unleash\Client\CacheKey;
 class DefaultMetricsHandler
 {
@@ -38,7 +38,7 @@ class DefaultMetricsHandler
         }
 
         if (is_null($bucket)) {
-            $bucket = new MetricsBucket(new DateTimeImmutable());
+            $bucket = new MetricsBucket(new DateTime());
         }
 
         return $bucket;
@@ -58,7 +58,7 @@ class DefaultMetricsHandler
 
     private function send($bucket)
     {
-        $bucket->setEndDate(new DateTimeImmutable());
+        $bucket->setEndDate(new DateTime());
         $this->metricsSender->sendMetrics($bucket);
         $cache = $this->config->getCache();
         if ($cache->has(CacheKey::METRICS_BUCKET)) {

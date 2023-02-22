@@ -26,10 +26,10 @@ class GradualRolloutStrategyHandler extends AbstractStrategyHandler
 
         switch(strtolower($stickiness)) {
         case 'default':
-            $id = $context->getCurrentUserId() ? $context->getCurrentUserId() : $context->getSessionId() ? $context->getSessionId() : random_int(1, 100000);
+            $id = $context->getCurrentUserId() ? $context->getCurrentUserId() : $context->getSessionId() ? $context->getSessionId() : rand(1, 100000);
             break;
         case RANDOM:
-           $id = random_int(1, 100000);
+           $id = rand(1, 100000);
             break;
         case USER_ID: 
            $id = $context->getCurrentUserId();

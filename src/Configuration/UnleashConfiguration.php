@@ -14,7 +14,7 @@ final class UnleashConfiguration
         $ttl = 30,
         $headers = [],
         $fetchingEnabled = true,
-        $staleTtl = 30 * 60,
+        $staleTtl = 1800,
         $metricsInterval = 30000,
         $metricsEnabled = true,
         $autoRegistrationEnabled = true

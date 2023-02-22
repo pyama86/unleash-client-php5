@@ -41,7 +41,7 @@ class HttpClient
                 'bucket' => $bucket->jsonSerialize(),
             ];
 
-            $response = $this->httpClient->request('POST', 'client/metrics', [
+            $response = $this->httpClient->post('client/metrics', [
                 'json' => $payload
             ]);
         } catch (Exception $e) {
@@ -72,7 +72,7 @@ class HttpClient
                 'interval' => $this->config->getMetricsInterval
             ];
 
-            $response = $this->httpClient->request('POST', 'client/register', [
+            $response = $this->httpClient->post('client/register', [
                 'json' => $payload
             ]);
 
@@ -102,13 +102,15 @@ class HttpClient
     protected function createHttpClient()
     {
         return new Client([
-            'base_uri' => $this->config->getUrl(),
-            'verify' => $_ENV["DISABLE_SSL_VERIFY"] ? !$_ENV["DISABLE_SSL_VERIFY"] : true,
-            'headers' => array_merge([
-                "UNLEASH-APPNAME" => $this->config->getAppName(),
-                "UNLEASH-INSTANCEID" => $this->config->getInstanceId(),
-                'Content-Type' => 'application/json'
-            ], $this->config->getHeaders())
+            'base_url' => $this->config->getUrl(),
+            'defaults' => [
+                'verify' => $_ENV["DISABLE_SSL_VERIFY"] ? !$_ENV["DISABLE_SSL_VERIFY"] : true,
+                'headers' => array_merge([
+                    "UNLEASH-APPNAME" => $this->config->getAppName(),
+                    "UNLEASH-INSTANCEID" => $this->config->getInstanceId(),
+                    'Content-Type' => 'application/json'
+                ], $this->config->getHeaders())
+            ]
         ]);
     }
 }

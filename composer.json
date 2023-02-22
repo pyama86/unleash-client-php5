@@ -1,10 +1,26 @@
 {
     "require": {
         "php": "^5",
-        "guzzlehttp/guzzle": "^6.5",
-        "cache/filesystem-adapter": "^1.1",
+        "guzzlehttp/guzzle": "^5.3",
+        "cache/adapter-common": "dev-old-php#230c19b5c7edc81fd0b258e091b4d82bdbfc0745",
+        "cache/tag-interop": "dev-old-php#38c7b79708ecc118dac1e611466bf8504b1d90bf",
+        "cache/filesystem-adapter": "dev-old-php#7d4a76eb5f35c76db8d2c4f13a3ee2c089f49cc3",
         "lastguest/murmurhash": "^1.3"
     },
+    "repositories": [
+      {
+        "type": "vcs",
+        "url": "https://github.com/pyama86/adapter-common"
+      },
+      {
+        "type": "vcs",
+        "url": "https://github.com/pyama86/tag-interop"
+      },
+      {
+        "type": "vcs",
+        "url": "https://github.com/pyama86/filesystem-adapter"
+      }
+    ],
     "autoload": {
         "psr-4": {
             "Unleash\\": "src/"
