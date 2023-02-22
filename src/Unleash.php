@@ -78,6 +78,6 @@ class Unleash
     }
     public function register()
     {
-        return $this->httpClient->register();
+        return $this->httpClient->register($this->strategyHandlers);
     }
 }

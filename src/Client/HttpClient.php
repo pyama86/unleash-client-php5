@@ -51,7 +51,7 @@ class HttpClient
         $this->storeCache($result);
         return $result;
     }
-    public function register()
+    public function register($strategyHandlers)
     {
         if (!$this->config->isFetchingEnabled()) {
             return false;
@@ -65,7 +65,9 @@ class HttpClient
                 'appName' => $this->config->getAppName(),
                 'instanceId' => $this->config->getInstanceId(),
                 'sdkVersion' => $this->sdkName . ':' . $this->sdkVersion,
-                'strategies' => [],
+                'strategies' => array_map(function ($strategyHandler) {
+                    return $strategyHandler->getStrategyName();
+                }, $strategyHandlers),
                 'started' => date("c"),
                 'interval' => $this->config->getMetricsInterval
             ];
@@ -105,7 +107,7 @@ class HttpClient
             'headers' => array_merge([
                 "UNLEASH-APPNAME" => $this->config->getAppName(),
                 "UNLEASH-INSTANCEID" => $this->config->getInstanceId(),
-                'Content-Type', 'application/json'
+                'Content-Type' => 'application/json'
             ], $this->config->getHeaders())
         ]);
     }
