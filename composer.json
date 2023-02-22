@@ -1,0 +1,12 @@
+{
+    "require": {
+        "php": "^5",
+        "guzzlehttp/guzzle": "^6.5",
+        "cache/filesystem-adapter": "^1.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Unleash\\": "src/"
+        }
+    }
+}
