@@ -24,7 +24,7 @@ try {
                                           ->build();
 }
 
-$unleash->isEnabled($test);
+var_dump($unleash->isEnabled($feature));
 $context = new UnleashContext();
 $context->setCurrentUserId('dummy');
 

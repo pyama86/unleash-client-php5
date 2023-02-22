@@ -5,6 +5,9 @@ final class UserIdStrategyHandler extends AbstractStrategyHandler
 {
     public function isEnabled($strategy, $context)
     {
+        if (is_null($context)) {
+            return false;
+        }
         if (!$userIds = $this->findParameter('userIds', $strategy)) {
             return false;
         }

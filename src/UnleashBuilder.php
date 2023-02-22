@@ -10,6 +10,9 @@ use Unleash\Client\HttpClient;
 use Unleash\Strategy\DefaultStrategyHandler;
 use Unleash\Strategy\IpAddressStrategyHandler;
 use Unleash\Strategy\UserIdStrategyHandler;
+use Unleash\Strategy\GradualRolloutStrategyHandler;
+use Unleash\Strategy\GradualRolloutSessionIdStrategyHandler;
+use Unleash\Stickiness\MurmurHashCalculator;
 use Exception;
 
 class UnleashBuilder
@@ -17,25 +20,23 @@ class UnleashBuilder
 	private $appUrl = null;
 	private $instanceId = null;
 	private $appName = null;
-	private $httpClient = null;
-	private $requestFactory = null;
 	private $cache = null;
 	private $cacheTtl = null;
 	private $staleTtl = null;
-	private $registrationService = null;
 	private $autoregister = true;
 	private $headers = [];
-	private $metricsEnabled = null;
-	private $metricsInterval = null;
 	private $fetchingEnabled = true;
 
 
     public function __construct()
     {
+        $rolloutStrategyHandler = new GradualRolloutStrategyHandler(new MurmurHashCalculator());
         $this->strategies = [
             new DefaultStrategyHandler(),
             new IpAddressStrategyHandler(),
             new UserIdStrategyHandler(),
+            $rolloutStrategyHandler,
+            new GradualRolloutSessionIdStrategyHandler($rolloutStrategyHandler),
         ];
     }
 
