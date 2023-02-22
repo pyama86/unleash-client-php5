@@ -20,8 +20,6 @@ class HttpClient
         $this->sdkVersion = SDK_VERSION;
     }
 
-
-
     public function fetchFeatures()
     {
         $response = $this->httpClient->get('client/features');
@@ -33,6 +31,26 @@ class HttpClient
         }
 
         return [];
+    }
+    public function sendMetrics($bucket)
+    {
+        try {
+            $payload = [
+                'appName' => $this->config->getAppName(),
+                'instanceId' => $this->config->getInstanceId(),
+                'bucket' => $bucket->jsonSerialize(),
+            ];
+
+            $response = $this->httpClient->request('POST', 'client/metrics', [
+                'json' => $payload
+            ]);
+
+        } catch (Exception $e) {
+            return false;
+        }
+        $result = $response->getStatusCode() >= 200 && $response->getStatusCode() < 300;
+        $this->storeCache($result);
+        return $result;
     }
     public function register()
     {
@@ -88,7 +106,8 @@ class HttpClient
             'verify' => $_ENV["DISABLE_SSL_VERIFY"] ? !$_ENV["DISABLE_SSL_VERIFY"] : true,
             'headers' => array_merge([
                 "UNLEASH-APPNAME" => $this->config->getAppName(),
-                "UNLEASH-INSTANCEID" => $this->config->getInstanceId()
+                "UNLEASH-INSTANCEID" => $this->config->getInstanceId(),
+                'Content-Type', 'application/json'
             ], $this->config->getHeaders())
         ]);
     }

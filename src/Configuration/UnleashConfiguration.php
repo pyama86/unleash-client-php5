@@ -16,6 +16,7 @@ final class UnleashConfiguration
         $fetchingEnabled = true,
         $staleTtl = 30 * 60,
         $metricsInterval = 30000,
+        $metricsEnabled = true,
         $autoRegistrationEnabled = true
     ) {
         $this->url = $url;
@@ -27,6 +28,7 @@ final class UnleashConfiguration
         $this->fetchingEnabled = $fetchingEnabled;
         $this->staleTtl= $staleTtl;
         $this->metricsInterval = $metricsInterval;
+        $this->metricsEnabled = $metricsEnabled;
         $this->autoRegistrationEnabled = $autoRegistrationEnabled;
     }
 
@@ -159,5 +161,24 @@ final class UnleashConfiguration
     public function isAutoRegistrationEnabled()
     {
         return $this->autoRegistrationEnabled;
+    }
+
+    public function isMetricsEnabled()
+    {
+        return $this->metricsEnabled;
+    }
+
+    public function setMetricsEnabled($metricsEnabled)
+    {
+        $this->metricsEnabled = $metricsEnabled;
+
+        return $this;
+    }
+
+    public function setMetricsInterval($metricsInterval)
+    {
+        $this->metricsInterval = $metricsInterval;
+
+        return $this;
     }
 }

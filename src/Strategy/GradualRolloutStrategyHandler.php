@@ -16,9 +16,6 @@ class GradualRolloutStrategyHandler extends AbstractStrategyHandler
 
     public function isEnabled($strategy, $context)
     {
-        if (is_null($context)) {
-            return false;
-        }
         if (!$stickiness = $this->findParameter('stickiness', $strategy)) {
             return false;
         }

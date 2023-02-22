@@ -12,6 +12,8 @@ use Unleash\Strategy\IpAddressStrategyHandler;
 use Unleash\Strategy\UserIdStrategyHandler;
 use Unleash\Strategy\GradualRolloutStrategyHandler;
 use Unleash\Strategy\GradualRolloutSessionIdStrategyHandler;
+use Unleash\Metrics\DefaultMetricsHandler;
+use Unleash\Metrics\DefaultMetricsSender;
 use Unleash\Stickiness\MurmurHashCalculator;
 use Exception;
 
@@ -26,6 +28,7 @@ class UnleashBuilder
 	private $autoregister = true;
 	private $headers = [];
 	private $fetchingEnabled = true;
+    private $metricsEnabled = null;
 
 
     public function __construct()
@@ -81,6 +84,16 @@ class UnleashBuilder
         return $this->with('cacheTtl', $timeToLive);
     }
 
+    public function withMetricsEnabled($enabled)
+    {
+        return $this->with('metricsEnabled', $enabled);
+    }
+
+    public function withMetricsInterval($milliseconds)
+    {
+        return $this->with('metricsInterval', $milliseconds);
+    }
+
     public function build()
     {
         $appUrl = $this->appUrl;
@@ -122,8 +135,21 @@ class UnleashBuilder
             ->setStaleTtl($this->staleTtl ? $this->staleTtl : $configuration->getStaleTtl())
             ->setHeaders($this->headers)
             ->setAutoRegistrationEnabled($this->autoregister)
+            ->setMetricsEnabled($this->metricsEnabled ? $this->metricsEnabled : $configuration->isMetricsEnabled())
+            ->setMetricsInterval($this->metricsInterval ? $this->metricsInterval : $configuration->getMetricsInterval())
             ->setFetchingEnabled($this->fetchingEnabled);
         $httpClient = new HttpClient($configuration);
-        return new Unleash($configuration, $httpClient, $this->strategies);
+        return new Unleash(
+            $configuration,
+            $httpClient,
+            $this->strategies,
+            new DefaultMetricsHandler(
+                new DefaultMetricsSender(
+                    $httpClient,
+                    $configuration
+                ),
+                $configuration
+            )
+        );
     }
 }

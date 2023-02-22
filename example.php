@@ -13,6 +13,7 @@ $unleashBuilder = UnleashBuilder::create()
 ->withAppName($appName)
 ->withAppUrl($_ENV["UNLEASH_SERVER"])
 ->withHeader('Authorization', $_ENV["UNLEASH_API_TOKEN"])
+->withMetricsInterval(10)
 ->withInstanceId(gethostname());
 
 try {

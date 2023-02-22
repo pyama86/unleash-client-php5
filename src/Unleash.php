@@ -1,17 +1,20 @@
 <?php
 namespace Unleash;
 use Unleash\Client\Repository;
+use Unleash\Configuration\UnleashContext;
 class Unleash
 {
     public function __construct(
         $config,
         $httpClient,
-        $strategyHandlers
+        $strategyHandlers,
+        $metricsHandler
     ) {
         $this->httpClient = $httpClient;
         $this->config = $config;
         $this->repository = new Repository($httpClient, $config);
         $this->strategyHandlers = $strategyHandlers;
+        $this->metricsHandler = $metricsHandler;
         if ($this->config->isAutoRegistrationEnabled()) {
             $this->register();
         }
@@ -19,18 +22,28 @@ class Unleash
 
     public function isEnabled($featureName, $context = null, $default = false)
     {
+        if (is_null($context)) {
+            $context = new UnleashContext();
+        }
         $feature = $this->repository->findFeature($featureName);
         if ($feature === null) {
             return $default;
         }
 
         if (!$feature->isEnabled()) {
+            $this->metricsHandler->handleMetrics($feature, false);
             return false;
         }
 
         $strategies = $feature->getStrategies();
         if (!is_array($strategies)) {
             $strategies = iterator_to_array($strategies);
+        }
+
+        if (!count($strategies)) {
+            $this->metricsHandler->handleMetrics($feature, true);
+
+            return true;
         }
 
         $handlersFound = false;
@@ -42,11 +55,13 @@ class Unleash
             $handlersFound = true;
             foreach ($handlers as $handler) {
                 if ($handler->isEnabled($strategy, $context)) {
+                    $this->metricsHandler->handleMetrics($feature, true);
                     return true;
                 }
             }
         }
 
+        $this->metricsHandler->handleMetrics($feature, false);
         return false;
     }
 
