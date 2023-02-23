@@ -1,4 +1,6 @@
 {
+    "name": "unleash-client-php5",
+    "description": "unleash client for php5",
     "require": {
         "php": "^5",
         "guzzlehttp/guzzle": "^6.5",
