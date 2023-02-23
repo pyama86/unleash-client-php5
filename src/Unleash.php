@@ -1,6 +1,6 @@
 <?php
 namespace Unleash;
-use Unleash\Client\Repository;
+use Unleash\Repository\DefaultUnleashRepository;
 use Unleash\Configuration\UnleashContext;
 class Unleash
 {
@@ -12,7 +12,7 @@ class Unleash
     ) {
         $this->httpClient = $httpClient;
         $this->config = $config;
-        $this->repository = new Repository($httpClient, $config);
+        $this->repository = new DefaultUnleashRepository($httpClient, $config);
         $this->strategyHandlers = $strategyHandlers;
         $this->metricsHandler = $metricsHandler;
         if ($this->config->isAutoRegistrationEnabled()) {

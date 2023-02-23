@@ -3,11 +3,18 @@
         "php": "^5",
         "guzzlehttp/guzzle": "^6.5",
         "cache/filesystem-adapter": "^1.1",
-        "lastguest/murmurhash": "^1.3"
+        "lastguest/murmurhash": "^1.3",
+        "phpunit/phpunit": "^5.7",
+        "friendsofphp/php-cs-fixer": "^2.19"
     },
     "autoload": {
         "psr-4": {
             "Unleash\\": "src/"
         }
+    },
+    "scripts": {
+        "fixer": "php-cs-fixer fix --verbose --allow-risky=yes",
+        "phpunit": "phpunit"
     }
+
 }
