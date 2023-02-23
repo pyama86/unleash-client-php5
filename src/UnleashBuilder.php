@@ -15,7 +15,11 @@ use Unleash\Strategy\GradualRolloutSessionIdStrategyHandler;
 use Unleash\Metrics\DefaultMetricsHandler;
 use Unleash\Metrics\DefaultMetricsSender;
 use Unleash\Stickiness\MurmurHashCalculator;
+use Unleash\Bootstrap\EmptyBootstrapProvider;
+use Unleash\Bootstrap\JsonSerializableBootstrapProvider;
+use Unleash\Bootstrap\DefaultBootstrapHandler;
 use Exception;
+use Unleash\Exception\InvalidValueException;
 
 class UnleashBuilder
 {
@@ -23,13 +27,15 @@ class UnleashBuilder
 	private $instanceId = null;
 	private $appName = null;
 	private $cache = null;
+	private $staleCache = null;
 	private $cacheTtl = null;
 	private $staleTtl = null;
 	private $autoregister = true;
 	private $headers = [];
 	private $fetchingEnabled = true;
     private $metricsEnabled = null;
-
+    private $bootstrapProvider = null;
+    private $bootstrapHandler = null;
 
     public function __construct()
     {
@@ -72,11 +78,16 @@ class UnleashBuilder
         return $this->with('headers', array_merge((array) $this->headers, [$header => $value]));
     }
 
-    private function with($property, $value) 
+    private function with($property, $value)
     {
         $copy = clone $this;
         $copy->{$property} = $value;
         return $copy;
+    }
+
+    public function withStaleCacheHandler($cache)
+    {
+        return $this->with('staleCache', $cache);
     }
 
     public function withCacheTimeToLive($timeToLive)
@@ -94,6 +105,44 @@ class UnleashBuilder
         return $this->with('metricsInterval', $milliseconds);
     }
 
+
+    public function withBootstrap($bootstrap)
+    {
+        if ($bootstrap === null) {
+            $provider = new EmptyBootstrapProvider();
+        } else {
+            $provider = new JsonSerializableBootstrapProvider($bootstrap);
+        }
+        return $this->withBootstrapProvider($provider);
+    }
+
+    public function withBootstrapProvider($provider)
+    {
+        return $this->with('bootstrapProvider', $provider);
+    }
+
+    public function withBootstrapHandler($handler)
+    {
+        return $this->with('bootstrapHandler', $handler);
+    }
+
+
+    public function withAutomaticRegistrationEnabled($enabled)
+    {
+        return $this->with('autoregister', $enabled);
+    }
+
+    public function withHeaders($headers)
+    {
+        return $this->with('headers', $headers);
+    }
+
+    public function withStaleTtl($ttl)
+    {
+        return $this->with('staleTtl', $ttl);
+    }
+
+
     public function build()
     {
         $appUrl = $this->appUrl;
@@ -107,13 +156,13 @@ class UnleashBuilder
         }
 
         if ($appUrl === null) {
-            throw new Exception("App url must be set, please use 'withAppUrl()' method");
+            throw new InvalidValueException("App url must be set, please use 'withAppUrl()' method");
         }
         if ($instanceId === null) {
-            throw new Exception("Instance ID must be set, please use 'withInstanceId()' method");
+            throw new InvalidValueException("Instance ID must be set, please use 'withInstanceId()' method");
         }
         if ($appName === null) {
-            throw new Exception(
+            throw new InvalidValueException(
                 "App name must be set, please use 'withAppName()' or 'withGitlabEnvironment()' method"
             );
         }
@@ -128,13 +177,21 @@ class UnleashBuilder
             }
         }
 
+        $staleCache = $this->staleCache ? $this->staleCache : $cache;
+
+        $bootstrapHandler = $this->bootstrapHandler ? $this->bootstrapHandler : new DefaultBootstrapHandler();
+        $bootstrapProvider = $this->bootstrapProvider ? $this->bootstrapProvider : new EmptyBootstrapProvider();
+
         $configuration = new UnleashConfiguration($appUrl, $appName, $instanceId);
         $configuration
             ->setCache($cache)
+            ->setStaleCache($staleCache)
             ->setTtl($this->cacheTtl ? $this->cacheTtl : $configuration->getTtl())
             ->setStaleTtl($this->staleTtl ? $this->staleTtl : $configuration->getStaleTtl())
             ->setHeaders($this->headers)
             ->setAutoRegistrationEnabled($this->autoregister)
+            ->setBootstrapHandler($bootstrapHandler)
+            ->setBootstrapProvider($bootstrapProvider)
             ->setMetricsEnabled($this->metricsEnabled ? $this->metricsEnabled : $configuration->isMetricsEnabled())
             ->setMetricsInterval($this->metricsInterval ? $this->metricsInterval : $configuration->getMetricsInterval())
             ->setFetchingEnabled($this->fetchingEnabled);

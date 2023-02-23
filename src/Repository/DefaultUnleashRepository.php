@@ -1,13 +1,15 @@
 <?php
 
-namespace Unleash\Client;
+namespace Unleash\Repository;
 
 use Exception;
+use LogicException;
 use Unleash\Client\CacheKey;
 use Unleash\Feature\DefaultFeature;
 use Unleash\Strategy\DefaultStrategy;
+use Unleash\Exception\HttpResponseException;
 
-class Repository
+class DefaultUnleashRepository
 {
     public function __construct(
         $httpClient,
@@ -29,14 +31,33 @@ class Repository
         $features = $this->getCachedFeatures();
         if ($features === null) {
             if (!$this->config->isFetchingEnabled()) {
-                return [];
+                if (!$data = $this->getBootstrappedResponse()) {
+                    throw new LogicException('Fetching of Unleash api is disabled but no bootstrap is provided');
+                }
             } else {
-                $res = $this->httpClient->fetchFeatures();
-                if (!empty($res) ) {
-                    $features = $this->parseFeatures($res);
-                    $this->setCache($features);
+                try {
+                    $data = $this->httpClient->fetchFeatures();
+                    if (!empty($data) ) {
+                        $this->setLastValidState($data);
+                    } else {
+                        throw new HttpResponseException("Invalid status code: '{$response->getStatusCode()}'");
+                    }
+                } catch (Exception $exception) {
+                    $data = $this->getLastValidState();
+                }
+
+                if (is_null($data)) {
+                    $data = $this->getBootstrappedResponse();
+                }
+                if ($data === null) {
+                    throw new HttpResponseException(sprintf(
+                        'Got invalid response code when getting features and no default bootstrap provided: %s',
+                        isset($response) ? $response->getStatusCode() : 'unknown response status code'
+                    ), 0, null);
                 }
             }
+            $features = $this->parseFeatures($data);
+            $this->setCache($features);
         }
         return $features;
     }
@@ -89,8 +110,6 @@ class Repository
             $variants = [];
 
             foreach ($feature['strategies'] as $strategy) {
-                $constraints = $this->parseConstraints($strategy['constraints'] ? $strategy['constraints'] : []);
-
                 $hasNonexistentSegments = false;
                 $segments = [];
                 foreach ($strategy['segments'] ? $strategy['segments'] : [] as $segment) {
@@ -170,4 +189,21 @@ class Repository
 
         return $value;
     }
+
+    private function getBootstrappedResponse()
+    {
+        return $this->config->getBootstrapHandler()->getBootstrapContents(
+            $this->config->getBootstrapProvider()
+        );
+    }
+
+    private function setLastValidState($data)
+    {
+        $this->config->getStaleCache()->set(
+            CacheKey::FEATURES_RESPONSE,
+            $data,
+            $this->config->getStaleTtl()
+        );
+    }
+
 }

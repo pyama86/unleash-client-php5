@@ -1,10 +1,12 @@
 <?php
 
 namespace Unleash\Configuration;
+use Unleash\Bootstrap\DefaultBootstrapHandler;
+use Unleash\Bootstrap\EmptyBootstrapProvider;
 
 use LogicException;
 
-final class UnleashConfiguration
+class UnleashConfiguration
 {
     public function __construct(
         $url,
@@ -12,24 +14,30 @@ final class UnleashConfiguration
         $instanceId,
         $cache = null,
         $ttl = 30,
+        $metricsInterval = 30000,
+        $metricsEnabled = true,
         $headers = [],
         $fetchingEnabled = true,
         $staleTtl = 1800,
-        $metricsInterval = 30000,
-        $metricsEnabled = true,
-        $autoRegistrationEnabled = true
+        $autoRegistrationEnabled = true,
+        $bootstrapHandler = null,
+        $bootstrapProvider = null,
+        $staleCache = null
     ) {
         $this->url = $url;
         $this->appName = $appName;
         $this->instanceId = $instanceId;
         $this->cache = $cache;
         $this->ttl = $ttl;
-        $this->headers = $headers;
-        $this->fetchingEnabled = $fetchingEnabled;
-        $this->staleTtl= $staleTtl;
         $this->metricsInterval = $metricsInterval;
         $this->metricsEnabled = $metricsEnabled;
+        $this->headers = $headers;
+        $this->fetchingEnabled = $fetchingEnabled;
+        $this->staleTtl = $staleTtl;
         $this->autoRegistrationEnabled = $autoRegistrationEnabled;
+        $this->bootstrapHandler = $bootstrapHandler;
+        $this->bootstrapProvider = $bootstrapProvider;
+        $this->staleCache = $staleCache;
     }
 
     public function getCache()
@@ -77,21 +85,21 @@ final class UnleashConfiguration
         return $this;
     }
 
-    public function setUrl(string $url)
+    public function setUrl($url)
     {
         $this->url = $url;
 
         return $this;
     }
 
-    public function setAppName(string $appName)
+    public function setAppName($appName)
     {
         $this->appName = $appName;
 
         return $this;
     }
 
-    public function setInstanceId(string $instanceId)
+    public function setInstanceId($instanceId)
     {
         $this->instanceId = $instanceId;
 
@@ -181,4 +189,47 @@ final class UnleashConfiguration
 
         return $this;
     }
+
+    public function getBootstrapHandler()
+    {
+        if (is_null($this->bootstrapHandler)) {
+            $this->bootstrapHandler = new DefaultBootstrapHandler();
+        }
+        return $this->bootstrapHandler;
+    }
+
+    public function setBootstrapHandler($bootstrapHandler)
+    {
+        $this->bootstrapHandler = $bootstrapHandler;
+        return $this;
+    }
+
+    public function getBootstrapProvider()
+    {
+        if (is_null($this->bootstrapProvider)) {
+            $this->bootstrapProvider = new EmptyBootstrapProvider();
+        }
+        return $this->bootstrapProvider;
+    }
+
+    public function setBootstrapProvider($bootstrapProvider)
+    {
+        $this->bootstrapProvider = $bootstrapProvider;
+
+        return $this;
+    }
+
+
+    public function setStaleCache($cache)
+    {
+        $this->staleCache = $cache;
+        return $this;
+    }
+
+    public function getStaleCache()
+    {
+        return $this->staleCache ? $this->staleCache : $this->getCache();
+    }
+
+
 }

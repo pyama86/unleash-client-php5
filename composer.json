@@ -25,5 +25,10 @@
         "psr-4": {
             "Unleash\\": "src/"
         }
+    },
+    "scripts": {
+        "fixer": "php-cs-fixer fix --verbose --allow-risky=yes",
+        "phpunit": "phpunit"
     }
+
 }
