@@ -12,10 +12,11 @@ class HttpClient
     protected $httpClient;
     protected $config;
     public function __construct(
-        $config
+        $config,
+        $httpClient = null
     ) {
         $this->config = $config;
-        $this->httpClient = $this->createHttpClient();
+        $this->httpClient = !is_null($httpClient) ? $httpClient : $this->createHttpClient();
         $this->sdkName = 'unleash-client-php5';
         $this->sdkVersion = SDK_VERSION;
     }
@@ -28,6 +29,8 @@ class HttpClient
             $response->getStatusCode() < 300
         ) {
             return $response->getBody()->getContents();
+        } else {
+            throw new HttpResponseException("Invalid status code: '{$response->getStatusCode()}'");
         }
 
         return [];

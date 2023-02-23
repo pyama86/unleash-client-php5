@@ -39,8 +39,6 @@ class DefaultUnleashRepository
                     $data = $this->httpClient->fetchFeatures();
                     if (!empty($data) ) {
                         $this->setLastValidState($data);
-                    } else {
-                        throw new HttpResponseException("Invalid status code: '{$response->getStatusCode()}'");
                     }
                 } catch (Exception $exception) {
                     $data = $this->getLastValidState();
@@ -49,6 +47,7 @@ class DefaultUnleashRepository
                 if (is_null($data)) {
                     $data = $this->getBootstrappedResponse();
                 }
+
                 if ($data === null) {
                     throw new HttpResponseException(sprintf(
                         'Got invalid response code when getting features and no default bootstrap provided: %s',
