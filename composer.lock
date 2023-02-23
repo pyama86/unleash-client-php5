@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "52c55ae7ffb9bf7b82e46b6c84222474",
+    "content-hash": "866dbaca6dc4730029705efaa83d9eb5",
     "packages": [
         {
             "name": "cache/adapter-common",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pyama86/adapter-common.git",
-                "reference": "230c19b5c7edc81fd0b258e091b4d82bdbfc0745"
+                "reference": "5670c5ea5e164ad8670e070a26546e2fbdcdc1b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pyama86/adapter-common/zipball/230c19b5c7edc81fd0b258e091b4d82bdbfc0745",
-                "reference": "230c19b5c7edc81fd0b258e091b4d82bdbfc0745",
+                "url": "https://api.github.com/repos/pyama86/adapter-common/zipball/5670c5ea5e164ad8670e070a26546e2fbdcdc1b1",
+                "reference": "5670c5ea5e164ad8670e070a26546e2fbdcdc1b1",
                 "shasum": ""
             },
             "require": {
@@ -73,7 +73,7 @@
             "support": {
                 "source": "https://github.com/pyama86/adapter-common/tree/old-php"
             },
-            "time": "2023-02-22T11:43:42+00:00"
+            "time": "2023-02-23T01:28:14+00:00"
         },
         {
             "name": "cache/filesystem-adapter",
