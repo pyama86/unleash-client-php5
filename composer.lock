@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "720cd33337f70bc1b5c451973d71984b",
+    "content-hash": "c25e48a6f887d60e2e51c12b03f722ef",
     "packages": [
         {
             "name": "cache/adapter-common",
@@ -4103,7 +4103,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^5"
+        "php": "^5.4"
     },
     "platform-dev": [],
     "plugin-api-version": "2.2.0"

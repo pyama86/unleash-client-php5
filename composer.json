@@ -1,8 +1,10 @@
 {
-    "name": "unleash-client-php5",
+    "name": "unleash-client/php5",
     "description": "unleash client for php5",
+    "type": "library",
+    "license": "MIT",
     "require": {
-        "php": "^5",
+        "php": "^5.4",
         "guzzlehttp/guzzle": "^6.5",
         "cache/filesystem-adapter": "^1.1",
         "lastguest/murmurhash": "^1.3",
