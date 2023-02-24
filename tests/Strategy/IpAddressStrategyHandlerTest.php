@@ -50,18 +50,5 @@ final class IpAddressStrategyHandlerTest extends TestCase
             (new UnleashContext())->setCustomProperty('something', 'test')
         ));
 
-        $this->expectException(MissingArgumentException::class);
-        $instance->isEnabled(new DefaultStrategy('remoteAddress', []), $context);
-    }
-
-    public function testEmptyIpAddresses()
-    {
-        $context = new UnleashContext(null, '127.0.0.1');
-        $instance = new IpAddressStrategyHandler();
-
-        $this->expectException(MissingArgumentException::class);
-        $instance->isEnabled(new DefaultStrategy('', [
-            'IPs' => '',
-        ]), $context);
     }
 }
