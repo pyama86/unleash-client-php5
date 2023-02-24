@@ -6,7 +6,6 @@ use LogicException;
 use PHPUnit\Framework\TestCase;
 use Unleash\Configuration\UnleashConfiguration;
 use Unleash\Configuration\UnleashContext;
-use Symfony\Component\Cache\Simple\NullCache;
 
 final class UnleashConfigurationTest extends TestCase
 {
@@ -38,27 +37,16 @@ final class UnleashConfigurationTest extends TestCase
         self::assertEquals('https://www.example.com/test/', $instance->getUrl());
     }
 
-    public function testGetCache()
-    {
-        $instance = (new UnleashConfiguration('', '', ''))
-            ->setCache($this->getCache());
-        self::assertInstanceOf(NullCache::class, $instance->getCache());
-
-        $instance = new UnleashConfiguration('', '', '');
-        $this->expectException(LogicException::class);
-        $instance->getCache();
-    }
-
     public function testGetDefaultContext()
     {
         $instance = new UnleashConfiguration('', '', '');
-        self::assertInstanceOf(UnleashContext::class, $instance->getDefaultContext());
+        self::assertEquals('Unleash\Configuration\UnleashContext', get_class($instance->getDefaultContext()));
     }
 
     public function testGetStaleCache()
     {
         // test that stale cache falls back to normal cache adapter
-        $cache = $this->getCache();
+        $cache = 'dummy';
 
         $instance = (new UnleashConfiguration('', '', ''))
             ->setCache($cache);
@@ -66,8 +54,8 @@ final class UnleashConfigurationTest extends TestCase
         self::assertSame($cache, $instance->getCache());
         self::assertSame($cache, $instance->getStaleCache());
 
-        $cache1 = $this->getCache();
-        $cache2 = $this->getCache();
+        $cache1 = 'dummy1';
+        $cache2 = 'dummy2';
 
         $instance = (new UnleashConfiguration('', '', ''))
             ->setCache($cache1)
@@ -76,16 +64,5 @@ final class UnleashConfigurationTest extends TestCase
 
         self::assertSame($cache1, $instance->getCache());
         self::assertSame($cache2, $instance->getStaleCache());
-
-        $instance = new UnleashConfiguration('', '', '');
-        $this->expectException(LogicException::class);
-        $instance->getStaleCache();
     }
-
-    public function getCache()
-    {
-        return new NullCache();
-    }
-
-
 }

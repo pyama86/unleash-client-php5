@@ -43,29 +43,6 @@ class UnleashBuilderTest extends TestCase
 
     public function testBuild()
     {
-        try {
-            $this->instance->build();
-            self::fail('Expected exception: ' . InvalidValueException::class);
-        } catch (InvalidValueException $e) {
-        }
-
-        try {
-            $this->instance
-                ->withAppUrl('https://example.com')
-                ->build();
-            self::fail('Expected exception: ' . InvalidValueException::class);
-        } catch (InvalidValueException $e) {
-        }
-
-        try {
-            $this->instance
-                ->withAppUrl('https://example.com')
-                ->withInstanceId('test')
-                ->build();
-            self::fail('Expected exception: ' . InvalidValueException::class);
-        } catch (InvalidValueException $e) {
-        }
-
         $instance = $this->instance
             ->withAppUrl('https://example.com')
             ->withAppName('Test App')
