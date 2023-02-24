@@ -2,7 +2,7 @@
 
 namespace Unleash\Metrics;
 use DateTime;
-use Unleash\Client\CacheKey;
+use Unleash\Enum\CacheKey;
 class DefaultMetricsHandler
 {
     public function __construct(

@@ -4,10 +4,10 @@ namespace Unleash\Client;
 
 use Exception;
 use GuzzleHttp\Client as Client;
+use Unleash\Enum\CacheKey;
 
 class HttpClient
 {
-    const CACHE_REGISTRATION = 'unleash.client.metrics.registration';
     const SDK_VERSION = '0.0.1';
     protected $httpClient;
     protected $config;
@@ -90,16 +90,16 @@ class HttpClient
     private function hasValidCacheRegistration()
     {
         $cache = $this->config->getCache();
-        if (!$cache->has(CACHE_REGISTRATION)) {
+        if (!$cache->has(CacheKey::REGISTRATION)) {
             return false;
         }
 
-        return (bool) $cache->get(CACHE_REGISTRATION);
+        return (bool) $cache->get(CacheKey::REGISTRATION);
     }
 
     private function storeCache($result)
     {
-        $this->config->getCache()->set(CACHE_REGISTRATION, $result, $this->config->getTtl());
+        $this->config->getCache()->set(CacheKey::REGISTRATION, $result, $this->config->getTtl());
     }
 
     protected function createHttpClient()

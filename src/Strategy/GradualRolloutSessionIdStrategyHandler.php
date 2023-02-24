@@ -1,10 +1,10 @@
 <?php
 
 namespace Unleash\Strategy;
+use Unleash\Enum\Stickiness;
 
 class GradualRolloutSessionIdStrategyHandler extends AbstractStrategyHandler
 {
-    const SESSION_ID = 'sessionid';
     public function __construct($rolloutStrategyHandler)
     {
         $this->rolloutStrategyHandler = $rolloutStrategyHandler;
@@ -15,7 +15,7 @@ class GradualRolloutSessionIdStrategyHandler extends AbstractStrategyHandler
         $transformedStrategy = new DefaultStrategy(
             $this->getStrategyName(),
             [
-                'stickiness' => SESSION_ID,
+                'stickiness' => Stickiness::SESSION_ID,
                 'groupId' => $strategy->getParameters()['groupId'],
                 'rollout' => $strategy->getParameters()['percentage'],
             ]

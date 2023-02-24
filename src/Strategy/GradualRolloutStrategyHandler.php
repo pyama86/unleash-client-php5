@@ -1,13 +1,10 @@
 <?php
 
 namespace Unleash\Strategy;
+use Unleash\Cost\Stickiness;
 
 class GradualRolloutStrategyHandler extends AbstractStrategyHandler
 {
-    const USER_ID = 'userid';
-    const SESSION_ID = 'sessionid';
-    const RANDOM = 'random';
-
     public function __construct(
         $stickinessCalculator
     ) {
@@ -28,13 +25,13 @@ class GradualRolloutStrategyHandler extends AbstractStrategyHandler
         case 'default':
             $id = $context->getCurrentUserId() ? $context->getCurrentUserId() : $context->getSessionId() ? $context->getSessionId() : rand(1, 100000);
             break;
-        case RANDOM:
+        case Stickiness::RANDOM:
            $id = rand(1, 100000);
             break;
-        case USER_ID: 
+        case Stickiness::USER_ID:
            $id = $context->getCurrentUserId();
             break;
-        case SESSION_ID:
+        case Stickiness::SESSION_ID:
            $id = $context->getSessionId();
             break;
         default:

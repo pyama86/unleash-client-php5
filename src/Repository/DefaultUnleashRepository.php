@@ -4,7 +4,7 @@ namespace Unleash\Repository;
 
 use Exception;
 use LogicException;
-use Unleash\Client\CacheKey;
+use Unleash\Enum\CacheKey;
 use Unleash\Feature\DefaultFeature;
 use Unleash\Strategy\DefaultStrategy;
 use Unleash\Exception\HttpResponseException;
