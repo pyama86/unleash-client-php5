@@ -14,7 +14,7 @@ class NetworkCalculator
         $this->networkSize =$networkSize;
     }
 
-    public static function fromString(string $ipAddressAndNetwork)
+    public static function fromString($ipAddressAndNetwork)
     {
         $regex = '@([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})(?:/([0-9]{1,2}))?@';
         if (!preg_match($regex, $ipAddressAndNetwork, $matches)) {
@@ -27,13 +27,13 @@ class NetworkCalculator
         return new self($ipAddress, (int) $networkSize);
     }
 
-    public function isInRange(string $ipAddress): bool
+    public function isInRange($ipAddress)
     {
         return substr_compare(
             sprintf('%032b', ip2long($ipAddress)),
             sprintf('%032b', ip2long($this->ipAddress)),
             0,
-            $this->networkSize,
+            $this->networkSize
         ) === 0;
     }
 }

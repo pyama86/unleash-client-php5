@@ -1,14 +1,14 @@
 <?php
 
 namespace Unleash\Strategy;
-
+use Unleash\Exception\MissingArgumentException;
 use Unleash\Helper\NetworkCalculator;
 final class IpAddressStrategyHandler extends AbstractStrategyHandler
 {
     public function isEnabled($strategy, $context)
     {
         if (!$ipAddresses = $this->findParameter('IPs', $strategy)) {
-            throw new Exception("The remote server did not return 'IPs' config");
+            throw new MissingArgumentException("The remote server did not return 'IPs' config");
         }
         $ipAddresses = array_map('trim', explode(',', $ipAddresses));
 

@@ -66,7 +66,7 @@ class UnleashBuilderTest extends TestCase
         self::assertEquals('Test App', $config->getAppName());
         self::assertEquals('test', $config->getInstanceId());
         self::assertNotNull($config->getCache());
-        self::assertCount(5, $strategies);
+        self::assertCount(8, $strategies);
 
 
         $instance = $this->instance
@@ -83,7 +83,7 @@ class UnleashBuilderTest extends TestCase
             ->withInstanceId('test')
             ->withAutomaticRegistrationEnabled(false)
             ->build();
-        self::assertCount(5, $strategiesProperty->getValue($instance));
+        self::assertCount(8, $strategiesProperty->getValue($instance));
 
         $instance = $this->instance
             ->withAppUrl('https://example.com')

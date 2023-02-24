@@ -1,7 +1,7 @@
 <?php
 
 namespace Unleash\Strategy;
-use Unleash\Cost\Stickiness;
+use Unleash\Enum\Stickiness;
 
 class GradualRolloutStrategyHandler extends AbstractStrategyHandler
 {
@@ -20,10 +20,9 @@ class GradualRolloutStrategyHandler extends AbstractStrategyHandler
         if (!$rollout = $this->findParameter('rollout', $strategy)) {
             return false;
         }
-
         switch(strtolower($stickiness)) {
-        case 'default':
-            $id = $context->getCurrentUserId() ? $context->getCurrentUserId() : $context->getSessionId() ? $context->getSessionId() : rand(1, 100000);
+        case Stickiness::E_DEFAULT:
+            $id = $context->getCurrentUserId() ? $context->getCurrentUserId() : ($context->getSessionId() ? $context->getSessionId() : rand(1, 100000));
             break;
         case Stickiness::RANDOM:
            $id = rand(1, 100000);
