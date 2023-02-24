@@ -120,7 +120,7 @@ class UnleashContext
                 return $this->getCurrentTime()->format(DateTime::ISO8601);
                 break;
             default:
-                return $this->customContext[$fieldName];
+                return $this->customContext[$fieldName] ? $this->customContext[$fieldName] : null;
                 break;
         }
     }

@@ -7,11 +7,15 @@ use League\Flysystem\Filesystem;
 use Unleash\Configuration\UnleashConfiguration;
 use Unleash\Client\HttpClient;
 
+use Unleash\Strategy\ApplicationHostnameStrategyHandler;
 use Unleash\Strategy\DefaultStrategyHandler;
+use Unleash\Strategy\GradualRolloutRandomStrategyHandler;
+use Unleash\Strategy\GradualRolloutSessionIdStrategyHandler;
+use Unleash\Strategy\GradualRolloutStrategyHandler;
+use Unleash\Strategy\GradualRolloutUserIdStrategyHandler;
 use Unleash\Strategy\IpAddressStrategyHandler;
 use Unleash\Strategy\UserIdStrategyHandler;
-use Unleash\Strategy\GradualRolloutStrategyHandler;
-use Unleash\Strategy\GradualRolloutSessionIdStrategyHandler;
+
 use Unleash\Metrics\DefaultMetricsHandler;
 use Unleash\Metrics\DefaultMetricsSender;
 use Unleash\Stickiness\MurmurHashCalculator;
@@ -45,7 +49,10 @@ class UnleashBuilder
             new IpAddressStrategyHandler(),
             new UserIdStrategyHandler(),
             $rolloutStrategyHandler,
+            new ApplicationHostnameStrategyHandler(),
+            new GradualRolloutUserIdStrategyHandler($rolloutStrategyHandler),
             new GradualRolloutSessionIdStrategyHandler($rolloutStrategyHandler),
+            new GradualRolloutRandomStrategyHandler($rolloutStrategyHandler),
         ];
     }
 
