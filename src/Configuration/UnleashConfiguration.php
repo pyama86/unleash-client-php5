@@ -17,9 +17,10 @@ class UnleashConfiguration
         $metricsInterval = 30000,
         $metricsEnabled = true,
         $headers = [],
+        $autoRegistrationEnabled = true,
+        $defaultContext = null,
         $fetchingEnabled = true,
         $staleTtl = 30 * 60,
-        $autoRegistrationEnabled = true,
         $bootstrapHandler = null,
         $bootstrapProvider = null,
         $staleCache = null
@@ -38,6 +39,10 @@ class UnleashConfiguration
         $this->bootstrapHandler = $bootstrapHandler;
         $this->bootstrapProvider = $bootstrapProvider;
         $this->staleCache = $staleCache;
+        if ($defaultContext === null) {
+            $defaultContext = new UnleashContext();
+        }
+        $this->setDefaultContext($defaultContext);
     }
 
     public function getCache()
@@ -109,11 +114,6 @@ class UnleashConfiguration
     public function getHeaders()
     {
         return $this->headers;
-    }
-
-    public function getDefaultContext()
-    {
-        return $this->getContextProvider()->getContext();
     }
 
     public function isFetchingEnabled()
@@ -231,5 +231,15 @@ class UnleashConfiguration
         return $this->staleCache ? $this->staleCache : $this->getCache();
     }
 
+    public function getDefaultContext()
+    {
+        return $this->defaultContext;
+    }
+
+    public function setDefaultContext($defaultContext)
+    {
+        $this->defaultContext = $defaultContext;
+        return $this;
+    }
 
 }

@@ -86,7 +86,7 @@ abstract class AbstractHttpClientTest extends TestCase
         }
     }
 
-    private function getCache()
+    public function getCache()
     {
         return new NullCache();
     }
