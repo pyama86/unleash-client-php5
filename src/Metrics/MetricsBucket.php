@@ -52,12 +52,12 @@ class MetricsBucket
                 ];
             }
 
-            $updateField = $toggle->isSuccess() ? 'yes' : 'no';
+            $updateField = !is_null($toggle->isSuccess()) ? 'yes' : 'no';
             ++$togglesArray[$featureName][$updateField];
 
             if ($toggle->getVariant() !== null) {
                 $variant = $toggle->getVariant();
-                $togglesArray[$featureName]['variants'][$variant->getName()] ? $togglesArray[$featureName]['variants'][$variant->getName()] : 0;
+                !is_null($togglesArray[$featureName]['variants'][$variant->getName()]) ? $togglesArray[$featureName]['variants'][$variant->getName()] : 0;
                 ++$togglesArray[$featureName]['variants'][$variant->getName()];
             }
         }

@@ -22,7 +22,7 @@ class NetworkCalculator
         }
 
         $ipAddress = $matches[1];
-        $networkSize = $matches[2] ? $matches[2] : 32;
+        $networkSize = !is_null($matches[2]) ? $matches[2] : 32;
 
         return new self($ipAddress, (int) $networkSize);
     }

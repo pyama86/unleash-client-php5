@@ -184,23 +184,23 @@ class UnleashBuilder
             }
         }
 
-        $staleCache = $this->staleCache ? $this->staleCache : $cache;
+        $staleCache = !is_null($this->staleCache)? $this->staleCache : $cache;
 
-        $bootstrapHandler = $this->bootstrapHandler ? $this->bootstrapHandler : new DefaultBootstrapHandler();
-        $bootstrapProvider = $this->bootstrapProvider ? $this->bootstrapProvider : new EmptyBootstrapProvider();
+        $bootstrapHandler = !is_null($this->bootstrapHandler) ? $this->bootstrapHandler : new DefaultBootstrapHandler();
+        $bootstrapProvider = !is_null($this->bootstrapProvider) ? $this->bootstrapProvider : new EmptyBootstrapProvider();
 
         $configuration = new UnleashConfiguration($appUrl, $appName, $instanceId);
         $configuration
             ->setCache($cache)
             ->setStaleCache($staleCache)
-            ->setTtl($this->cacheTtl ? $this->cacheTtl : $configuration->getTtl())
-            ->setStaleTtl($this->staleTtl ? $this->staleTtl : $configuration->getStaleTtl())
+            ->setTtl(!is_null($this->cacheTtl) ? $this->cacheTtl : $configuration->getTtl())
+            ->setStaleTtl(!is_null($this->staleTtl) ? $this->staleTtl : $configuration->getStaleTtl())
             ->setHeaders($this->headers)
             ->setAutoRegistrationEnabled($this->autoregister)
             ->setBootstrapHandler($bootstrapHandler)
             ->setBootstrapProvider($bootstrapProvider)
-            ->setMetricsEnabled($this->metricsEnabled ? $this->metricsEnabled : $configuration->isMetricsEnabled())
-            ->setMetricsInterval($this->metricsInterval ? $this->metricsInterval : $configuration->getMetricsInterval())
+            ->setMetricsEnabled(!is_null($this->metricsEnabled) ? $this->metricsEnabled : $configuration->isMetricsEnabled())
+            ->setMetricsInterval(!is_null($this->metricsInterval) ? $this->metricsInterval : $configuration->getMetricsInterval())
             ->setFetchingEnabled($this->fetchingEnabled);
         $httpClient = new HttpClient($configuration);
         return new Unleash(
