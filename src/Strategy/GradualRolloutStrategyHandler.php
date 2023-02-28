@@ -16,13 +16,13 @@ class GradualRolloutStrategyHandler extends AbstractStrategyHandler
         if (!$stickiness = $this->findParameter('stickiness', $strategy)) {
             return false;
         }
-        $groupId = $this->findParameter('groupId', $strategy) ? $this->findParameter('groupId', $strategy) : '';
+        $groupId = !is_null($this->findParameter('groupId', $strategy)) ? $this->findParameter('groupId', $strategy) : '';
         if (!$rollout = $this->findParameter('rollout', $strategy)) {
             return false;
         }
         switch(strtolower($stickiness)) {
         case Stickiness::E_DEFAULT:
-            $id = $context->getCurrentUserId() ? $context->getCurrentUserId() : ($context->getSessionId() ? $context->getSessionId() : rand(1, 100000));
+            $id = !is_null($context->getCurrentUserId()) ? $context->getCurrentUserId() : ($context->getSessionId() ? $context->getSessionId() : rand(1, 100000));
             break;
         case Stickiness::RANDOM:
            $id = rand(1, 100000);

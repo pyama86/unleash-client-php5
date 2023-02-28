@@ -82,10 +82,10 @@ class DefaultUnleashRepository
             $constraints[] = new DefaultConstraint(
                 $constraint['contextName'],
                 $constraint['operator'],
-                $constraint['values'] ? $constraint['values'] : null,
-                $constraint['value'] ? $constraint['value'] :  null,
-                $constraint['inverted'] ? $constraint['inverted'] : false,
-                $constraint['caseInsensitive'] ? $constraint['caseInsensitive'] : false
+                !is_null($constraint['values']) ? $constraint['values'] : null,
+                !is_null($constraint['value']) ? $constraint['value'] :  null,
+                !is_null($constraint['inverted']) ? $constraint['inverted'] : false,
+                !is_null($constraint['caseInsensitive']) ? $constraint['caseInsensitive'] : false
             );
         }
 
@@ -98,7 +98,7 @@ class DefaultUnleashRepository
         $body = json_decode($rawBody, true);
         assert(is_array($body));
 
-        $globalSegments = $this->parseSegments($body['segments'] ? $body['segments'] : []);
+        $globalSegments = !is_null($body['segments']) ? $this->parseSegments($body['segments']) : [];
 
         if (!isset($body['features']) || !is_array($body['features'])) {
             throw new Exception("The body isn't valid because it doesn't contain a 'features' key");
@@ -111,7 +111,7 @@ class DefaultUnleashRepository
             foreach ($feature['strategies'] as $strategy) {
                 $hasNonexistentSegments = false;
                 $segments = [];
-                foreach ($strategy['segments'] ? $strategy['segments'] : [] as $segment) {
+                foreach (!is_null($strategy['segments']) ? $strategy['segments'] : [] as $segment) {
                     if (isset($globalSegments[$segment])) {
                         $segments[] = $globalSegments[$segment];
                     } else {
@@ -121,22 +121,22 @@ class DefaultUnleashRepository
                 }
                 $strategies[] = new DefaultStrategy(
                     $strategy['name'],
-                    $strategy['parameters'] ? $strategy['parameters'] : [],
+                    !is_null($strategy['parameters']) ? $strategy['parameters'] : [],
                     $constraints,
                     $segments,
                     $hasNonexistentSegments
                 );
             }
-            foreach ($feature['variants'] ? $feature['variants'] : [] as $variant) {
+            foreach (!is_null($feature['variants']) ? $feature['variants'] : [] as $variant) {
                 $overrides = [];
-                foreach ($variant['overrides'] ? $variant['overrides'] : [] as $override) {
+                foreach (!is_null($variant['overrides']) ? $variant['overrides'] : [] as $override) {
                     $overrides[] = new DefaultVariantOverride($override['contextName'], $override['values']);
                 }
                 $variants[] = new DefaultVariant(
                     $variant['name'],
                     true,
                     $variant['weight'],
-                    $variant['stickiness'] ? $variant['stickiness'] : 'default',
+                    !is_null($variant['stickiness']) ? $variant['stickiness'] : 'default',
                     isset($variant['payload'])
                         ? new DefaultVariantPayload($variant['payload']['type'], $variant['payload']['value'])
                         : null,
@@ -149,7 +149,7 @@ class DefaultUnleashRepository
                 $feature['enabled'],
                 $strategies,
                 $variants,
-                $feature['impressionData'] ? $feature['impressionData'] : false
+                !is_null($feature['impressionData']) ? $feature['impressionData'] : false
             );
         }
 

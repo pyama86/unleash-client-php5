@@ -228,7 +228,7 @@ class UnleashConfiguration
 
     public function getStaleCache()
     {
-        return $this->staleCache ? $this->staleCache : $this->getCache();
+        return !is_null($this->staleCache) ? $this->staleCache : $this->getCache();
     }
 
     public function getDefaultContext()

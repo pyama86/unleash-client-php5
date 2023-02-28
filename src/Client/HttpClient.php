@@ -78,7 +78,6 @@ class HttpClient
             $response = $this->httpClient->post('client/register', [
                 'json' => $payload
             ]);
-
         } catch (Exception $e) {
             return false;
         }
@@ -107,7 +106,7 @@ class HttpClient
         return new Client([
             'base_url' => $this->config->getUrl(),
             'defaults' => [
-                'verify' => $_ENV["DISABLE_SSL_VERIFY"] ? !$_ENV["DISABLE_SSL_VERIFY"] : true,
+                'verify' => !is_null($_ENV["DISABLE_SSL_VERIFY"]) ? !$_ENV["DISABLE_SSL_VERIFY"] : true,
                 'headers' => array_merge([
                     "UNLEASH-APPNAME" => $this->config->getAppName(),
                     "UNLEASH-INSTANCEID" => $this->config->getInstanceId(),

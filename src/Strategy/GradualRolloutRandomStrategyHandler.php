@@ -18,7 +18,7 @@ final class GradualRolloutRandomStrategyHandler extends AbstractStrategyHandler
             $this->getStrategyName(),
             [
                 'stickiness' => Stickiness::RANDOM,
-                'groupId' => $strategy->getParameters()['groupId'] ? $strategy->getParameters()['groupId'] : '',
+                'groupId' => !is_null($strategy->getParameters()['groupId']) ? $strategy->getParameters()['groupId'] : '',
                 'rollout' => $strategy->getParameters()['percentage'],
             ]
         );

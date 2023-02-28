@@ -38,12 +38,12 @@ class UnleashContext
 
     public function getIpAddress()
     {
-        return $this->ipAddress ? $this->ipAddress : $_SERVER['REMOTE_ADDR'];
+        return !is_null($this->ipAddress) ? $this->ipAddress : $_SERVER['REMOTE_ADDR'];
     }
 
     public function getSessionId()
     {
-        return $this->sessionId ? $this->sessionId : (session_id() ?: null);
+        return !is_null($this->sessionId) ? $this->sessionId : (session_id() ?: null);
     }
 
     public function setCurrentUserId($currentUserId)
@@ -73,7 +73,7 @@ class UnleashContext
     public function getHostname()
     {
         $v = $this->findContextValue(ContextField::HOSTNAME);
-        return $v ? $v : (gethostname() ?: null);
+        return !is_null($v) ? $v : (gethostname() ?: null);
     }
 
     public function setHostname($hostname)
@@ -120,7 +120,7 @@ class UnleashContext
                 return $this->getCurrentTime()->format(DateTime::ISO8601);
                 break;
             default:
-                return $this->customContext[$fieldName] ? $this->customContext[$fieldName] : null;
+                return !is_null($this->customContext[$fieldName]) ? $this->customContext[$fieldName] : null;
                 break;
         }
     }
@@ -145,7 +145,7 @@ class UnleashContext
 
     public function setCustomProperty($name,  $value)
     {
-        $this->customContext[$name] = $value ? $value : '';
+        $this->customContext[$name] = !is_null($value) ? $value : '';
 
         return $this;
     }
