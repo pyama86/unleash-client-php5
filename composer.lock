@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2f0626d7a1c0aae39d22f515702ea5f6",
+    "content-hash": "d302d780c307080c5c7fce66fdab9397",
     "packages": [
         {
             "name": "cache/adapter-common",
@@ -81,18 +81,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pyama86/filesystem-adapter.git",
-                "reference": "7d4a76eb5f35c76db8d2c4f13a3ee2c089f49cc3"
+                "reference": "39f21adf2becca2c819588"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pyama86/filesystem-adapter/zipball/7d4a76eb5f35c76db8d2c4f13a3ee2c089f49cc3",
-                "reference": "7d4a76eb5f35c76db8d2c4f13a3ee2c089f49cc3",
+                "url": "https://api.github.com/repos/pyama86/filesystem-adapter/zipball/39f21adf2becca2c819588",
+                "reference": "39f21adf2becca2c819588",
                 "shasum": ""
             },
             "require": {
                 "cache/adapter-common": "dev-old-php#230c19b5c7edc81fd0b258e091b4d82bdbfc0745",
                 "cache/tag-interop": "dev-old-php#38c7b79708ecc118dac1e611466bf8504b1d90bf",
-                "league/flysystem": "^1.0",
+                "league/flysystem": "^0.0 || ^1.0",
                 "php": "^5.4 || ^5.6 || ^7.0 || ^8.0",
                 "psr/cache": "^1.0 || ^2.0",
                 "psr/simple-cache": "^1.0"
@@ -144,7 +144,7 @@
             "support": {
                 "source": "https://github.com/pyama86/filesystem-adapter/tree/old-php"
             },
-            "time": "2023-02-22T11:45:39+00:00"
+            "time": "2023-02-28T05:27:48+00:00"
         },
         {
             "name": "cache/tag-interop",
@@ -1714,150 +1714,6 @@
             "time": "2015-06-21T13:59:46+00:00"
         },
         {
-            "name": "symfony/cache",
-            "version": "dev-old-php",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/pyama86/cache.git",
-                "reference": "cec4c14bd14ab44b6302555d7301afec167b343e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/pyama86/cache/zipball/cec4c14bd14ab44b6302555d7301afec167b343e",
-                "reference": "cec4c14bd14ab44b6302555d7301afec167b343e",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.4|>=7.0.8",
-                "psr/cache": "~1.0",
-                "psr/log": "~1.0",
-                "psr/simple-cache": "^1.0",
-                "symfony/polyfill-apcu": "~1.1"
-            },
-            "conflict": {
-                "symfony/var-dumper": "<3.3"
-            },
-            "provide": {
-                "psr/cache-implementation": "1.0",
-                "psr/simple-cache-implementation": "1.0"
-            },
-            "require-dev": {
-                "cache/integration-tests": "dev-master",
-                "doctrine/cache": "^1.6",
-                "doctrine/dbal": "^2.4|^3.0",
-                "predis/predis": "^1.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\Cache\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Nicolas Grekas",
-                    "email": "p@tchwork.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony Cache component with PSR-6, PSR-16, and tags",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "caching",
-                "psr6"
-            ],
-            "support": {
-                "source": "https://github.com/pyama86/cache/tree/old-php"
-            },
-            "time": "2023-02-23T14:33:29+00:00"
-        },
-        {
-            "name": "symfony/polyfill-apcu",
-            "version": "v1.19.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/polyfill-apcu.git",
-                "reference": "b44b51e7814c23bfbd793a16ead5d7ce43ed23c5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-apcu/zipball/b44b51e7814c23bfbd793a16ead5d7ce43ed23c5",
-                "reference": "b44b51e7814c23bfbd793a16ead5d7ce43ed23c5",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-main": "1.19-dev"
-                },
-                "thanks": {
-                    "name": "symfony/polyfill",
-                    "url": "https://github.com/symfony/polyfill"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "bootstrap.php"
-                ],
-                "psr-4": {
-                    "Symfony\\Polyfill\\Apcu\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Nicolas Grekas",
-                    "email": "p@tchwork.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony polyfill backporting apcu_* functions to lower PHP versions",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "apcu",
-                "compatibility",
-                "polyfill",
-                "portable",
-                "shim"
-            ],
-            "support": {
-                "source": "https://github.com/symfony/polyfill-apcu/tree/v1.19.0"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2020-10-21T09:57:48+00:00"
-        },
-        {
             "name": "symfony/polyfill-ctype",
             "version": "v1.19.0",
             "source": {
@@ -1996,8 +1852,7 @@
     "stability-flags": {
         "cache/adapter-common": 20,
         "cache/tag-interop": 20,
-        "cache/filesystem-adapter": 20,
-        "symfony/cache": 20
+        "cache/filesystem-adapter": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
