@@ -8,7 +8,7 @@
         "guzzlehttp/guzzle": "^5.3",
         "cache/adapter-common": "dev-old-php#5670c5ea5e164ad8670e070a26546e2fbdcdc1b1",
         "cache/tag-interop": "dev-old-php#38c7b79708ecc118dac1e611466bf8504b1d90bf",
-        "cache/filesystem-adapter": "dev-old-php#39f21adf2becca2c819588",
+        "cache/filesystem-adapter": "dev-old-php#39f21adf2becca2c8195889e56bfaa0282bdd6c4",
         "lastguest/murmurhash": "^1.3",
         "phpunit/phpunit": "^4.8"
     },

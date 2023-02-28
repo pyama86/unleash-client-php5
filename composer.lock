@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d302d780c307080c5c7fce66fdab9397",
+    "content-hash": "771504a76f49db92a1bec88ebc289a6f",
     "packages": [
         {
             "name": "cache/adapter-common",
@@ -81,12 +81,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pyama86/filesystem-adapter.git",
-                "reference": "39f21adf2becca2c819588"
+                "reference": "39f21adf2becca2c8195889e56bfaa0282bdd6c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pyama86/filesystem-adapter/zipball/39f21adf2becca2c819588",
-                "reference": "39f21adf2becca2c819588",
+                "url": "https://api.github.com/repos/pyama86/filesystem-adapter/zipball/39f21adf2becca2c8195889e56bfaa0282bdd6c4",
+                "reference": "39f21adf2becca2c8195889e56bfaa0282bdd6c4",
                 "shasum": ""
             },
             "require": {
