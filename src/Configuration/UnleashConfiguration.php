@@ -24,7 +24,7 @@ class UnleashConfiguration
         $bootstrapHandler = null,
         $bootstrapProvider = null,
         $staleCache = null,
-        $connectTimeout = 10,
+        $connectTimeout = 10
     ) {
         $this->url = $url;
         $this->appName = $appName;
