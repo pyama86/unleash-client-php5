@@ -106,6 +106,7 @@ class HttpClient
         return new Client([
             'base_url' => $this->config->getUrl(),
             'defaults' => [
+                'connect_timeout' => $this->config->getConnectTimeout(),
                 'verify' => !is_null($_ENV["DISABLE_SSL_VERIFY"]) ? !$_ENV["DISABLE_SSL_VERIFY"] : true,
                 'headers' => array_merge([
                     "UNLEASH-APPNAME" => $this->config->getAppName(),

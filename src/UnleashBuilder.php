@@ -40,6 +40,7 @@ class UnleashBuilder
     private $metricsEnabled = null;
     private $bootstrapProvider = null;
     private $bootstrapHandler = null;
+    private $connectTimeout = null;
 
     public function __construct()
     {
@@ -83,6 +84,11 @@ class UnleashBuilder
     public function withHeader($header, $value)
     {
         return $this->with('headers', array_merge((array) $this->headers, [$header => $value]));
+    }
+
+    public function withConnectTimeout($timeout)
+    {
+        return $this->with('connectTimeout', $timeout);
     }
 
     private function with($property, $value)
@@ -201,7 +207,8 @@ class UnleashBuilder
             ->setBootstrapProvider($bootstrapProvider)
             ->setMetricsEnabled(!is_null($this->metricsEnabled) ? $this->metricsEnabled : $configuration->isMetricsEnabled())
             ->setMetricsInterval(!is_null($this->metricsInterval) ? $this->metricsInterval : $configuration->getMetricsInterval())
-            ->setFetchingEnabled($this->fetchingEnabled);
+            ->setFetchingEnabled($this->fetchingEnabled)
+            ->setConnectTimeout(!is_null($this->connectTimeout) ? $this->connectTimeout : $configuration->getConnectTimeout());
         $httpClient = new HttpClient($configuration);
         return new Unleash(
             $configuration,
