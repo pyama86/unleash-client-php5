@@ -23,7 +23,8 @@ class UnleashConfiguration
         $staleTtl = 30 * 60,
         $bootstrapHandler = null,
         $bootstrapProvider = null,
-        $staleCache = null
+        $staleCache = null,
+        $connectTimeout = 10,
     ) {
         $this->url = $url;
         $this->appName = $appName;
@@ -43,6 +44,7 @@ class UnleashConfiguration
             $defaultContext = new UnleashContext();
         }
         $this->setDefaultContext($defaultContext);
+        $this->connectTimeout = $connectTimeout;
     }
 
     public function getCache()
@@ -239,6 +241,17 @@ class UnleashConfiguration
     public function setDefaultContext($defaultContext)
     {
         $this->defaultContext = $defaultContext;
+        return $this;
+    }
+
+    public function getConnectTimeout()
+    {
+        return $this->connectTimeout;
+    }
+
+    public function setConnectTimeout($timeout)
+    {
+        $this->connectTimeout = $timeout;
         return $this;
     }
 
