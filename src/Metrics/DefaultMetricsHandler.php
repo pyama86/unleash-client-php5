@@ -61,14 +61,22 @@ class DefaultMetricsHandler
         $bucket->setEndDate(new DateTimeImmutable());
         $this->metricsSender->sendMetrics($bucket);
         $cache = $this->config->getCache();
-        if ($cache->has(CacheKey::METRICS_BUCKET)) {
-            $cache->delete(CacheKey::METRICS_BUCKET);
+        try {
+            if ($cache->has(CacheKey::METRICS_BUCKET)) {
+                $cache->delete(CacheKey::METRICS_BUCKET);
+            }
+        } catch (\Exception $e) {
+            error_log('Failed to delete metrics bucket: ' . $e->getMessage());
         }
     }
 
     private function store($bucket)
     {
         $cache = $this->config->getCache();
-        $cache->set(CacheKey::METRICS_BUCKET, $bucket);
+        try {
+            $cache->set(CacheKey::METRICS_BUCKET, $bucket);
+        } catch (\Exception $e) {
+            error_log('Failed to store metrics bucket: ' . $e->getMessage());
+        }
     }
 }
