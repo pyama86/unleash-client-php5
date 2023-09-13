@@ -64,7 +64,7 @@ class DefaultMetricsHandler
         } catch (\Exception $e) {
             error_log('Failed to delete metrics bucket: ' . $e->getMessage());
         }
-        $bucket->setEndDate(new DateTimeImmutable());
+        $bucket->setEndDate(new DateTime());
         $this->metricsSender->sendMetrics($bucket);
     }
 
