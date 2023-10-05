@@ -16,7 +16,11 @@ class Unleash
         $this->strategyHandlers = $strategyHandlers;
         $this->metricsHandler = $metricsHandler;
         if ($this->config->isAutoRegistrationEnabled()) {
-            $this->register();
+            try {
+                $this->register();
+            } catch (\Exception $e) {
+                error_log('Unleash: Failed to register with unleash server');
+            }
         }
     }
 
