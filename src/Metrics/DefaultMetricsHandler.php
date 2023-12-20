@@ -1,8 +1,10 @@
 <?php
 
 namespace Unleash\Metrics;
-use DateTimeImmutable;
+
+use DateTime;
 use Unleash\Enum\CacheKey;
+
 class DefaultMetricsHandler
 {
     public function __construct(
@@ -38,7 +40,7 @@ class DefaultMetricsHandler
         }
 
         if (is_null($bucket)) {
-            $bucket = new MetricsBucket(new DateTimeImmutable());
+            $bucket = new MetricsBucket(new DateTime());
         }
 
         return $bucket;
@@ -64,7 +66,7 @@ class DefaultMetricsHandler
         } catch (\Exception $e) {
             error_log('Failed to delete metrics bucket: ' . $e->getMessage());
         }
-        $bucket->setEndDate(new DateTimeImmutable());
+        $bucket->setEndDate(new DateTime());
         try {
             $this->metricsSender->sendMetrics($bucket);
         } catch (\Exception $e) {

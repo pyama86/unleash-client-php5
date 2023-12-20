@@ -2,7 +2,6 @@
 
 namespace Unleash\Tests\Configuration;
 
-use DateTimeImmutable;
 use DateTime;
 use Unleash\Configuration\UnleashConfiguration;
 use Unleash\Configuration\UnleashContext;
@@ -135,7 +134,7 @@ class UnleashContextTest extends AbstractHttpClientTest
         $context = new UnleashContext();
         self::assertInstanceOf(DateTime::class, $context->getCurrentTime());
 
-        $time = new DateTimeImmutable('2022-01-01 15:00:00+0200');
+        $time = new DateTime('2022-01-01 15:00:00+0200');
         $context->setCurrentTime($time);
         self::assertSame($time->format('c'), $context->getCurrentTime()->format('c'));
         self::assertEquals(
@@ -153,16 +152,16 @@ class UnleashContextTest extends AbstractHttpClientTest
         $this->pushResponse([
             'features' => [
                 [
-                    'name'=> 'test',
-                    'enabled'=> true,
-                    'strategies'=> [
+                    'name' => 'test',
+                    'enabled' => true,
+                    'strategies' => [
                         [
-                            'name'=> 'default',
-                            'parameters'=> [],
-                            'constraints'=> [
+                            'name' => 'default',
+                            'parameters' => [],
+                            'constraints' => [
                                 [
-                                    'contextName'=> 'currentTime',
-                                    'operator'=> 'DATE_AFTER',
+                                    'contextName' => 'currentTime',
+                                    'operator' => 'DATE_AFTER',
                                     'value' => '2022-01-29T13:00:00.000Z',
                                 ],
                             ],
