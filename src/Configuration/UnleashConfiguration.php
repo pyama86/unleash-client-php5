@@ -1,6 +1,7 @@
 <?php
 
 namespace Unleash\Configuration;
+
 use Unleash\Bootstrap\DefaultBootstrapHandler;
 use Unleash\Bootstrap\EmptyBootstrapProvider;
 
@@ -20,7 +21,7 @@ class UnleashConfiguration
         $autoRegistrationEnabled = true,
         $defaultContext = null,
         $fetchingEnabled = true,
-        $staleTtl = 30 * 60,
+        $staleTtl = 1800,
         $bootstrapHandler = null,
         $bootstrapProvider = null,
         $staleCache = null,
@@ -56,7 +57,8 @@ class UnleashConfiguration
         return $this->cache;
     }
 
-    private function endsWith($haystack, $needle) {
+    private function endsWith($haystack, $needle)
+    {
         return (strlen($haystack) > strlen($needle)) ? (substr($haystack, -strlen($needle)) == $needle) : false;
     }
 
