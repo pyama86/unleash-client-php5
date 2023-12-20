@@ -8,7 +8,7 @@ use Unleash\Enum\CacheKey;
 
 class HttpClient
 {
-    const SDK_VERSION = '0.0.1';
+    public const SDK_VERSION = '0.0.1';
     protected $httpClient;
     protected $config;
     public function __construct(
@@ -44,7 +44,7 @@ class HttpClient
                 'bucket' => $bucket->jsonSerialize(),
             ];
 
-            $response = $this->httpClient->request('POST', 'client/metrics', [
+            $response = $this->httpClient->post('client/metrics', [
                 'json' => $payload
             ]);
         } catch (Exception $e) {
@@ -75,7 +75,7 @@ class HttpClient
                 'interval' => $this->config->getMetricsInterval
             ];
 
-            $response = $this->httpClient->request('POST', 'client/register', [
+            $response = $this->httpClient->post('client/register', [
                 'json' => $payload
             ]);
 
